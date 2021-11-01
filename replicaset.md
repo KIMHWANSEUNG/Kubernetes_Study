@@ -33,3 +33,4 @@ kubectl scale replicaset --replicas=5 new-replica-set
 
 ### replicaset scale down 하기 (replicaset 이름 = new-replica-set )
 kubectl scale replicaset --replicas=2 new-replica-set
+
