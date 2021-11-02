@@ -7,4 +7,5 @@ kubectl describe deployments.apps frontend-deployment | grep -i image
 
 ### deployment 생성  spec : Name: httpd-frontend; Replicas: 3; Image: httpd:2.4-alpine
 kubectl create deployment httpd-frontend --image=httpd:2.4-alpine
-kubectl scale deployment --replicas=3
+kubectl scale deployment httpd-frontend --replicas=3
+### 
