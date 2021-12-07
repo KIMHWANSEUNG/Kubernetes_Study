@@ -39,9 +39,3 @@ Subject CN(여기 URL)
 ### How long, from the issued date, is the Root CA Certificate valid for?
 openssl x509 -in /etc/kubernetes/pki/ca.crt -text
 validity 
-
-### Kubectl suddenly stops responding to your commands. Check it out! Someone recently modified the /etc/kubernetes/manifests/etcd.yaml file
-### You are asked to investigate and fix the issue. Once you fix the issue wait for sometime for kubectl to respond. Check the logs of the ETCD container.
-### Fix the kube-api server
-
-kubectl 

@@ -23,7 +23,7 @@ kubectl describe pod purple
 
 ### Update the pod red to use an initContainer that uses the busybox image and sleeps for 20 seconds
 ### Pod: red
-### initContainer Configured Correctly
+### initContainer Configured Correctly  
 kubectl get pods red -o yaml > red.yaml
 kubectl delete pod red
 vi red.yaml
