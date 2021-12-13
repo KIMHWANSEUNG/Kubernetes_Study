@@ -1,0 +1,120 @@
+### Configure a volume to store these logs at /var/log/webapp on the host.
+### Use the spec provided below.
+### Name: webapp
+### Image Name: kodekloud/event-simulator
+### Volume HostPath: /var/log/webapp
+### Volume Mount: /log
+
+kubectl run webapp --image=kodekloud/event-simulator  --dry-run=client -o yaml > webapp.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+spec:
+  containers:
+  - name: event-simulator
+    image: kodekloud/event-simulator
+    env:
+    - name: LOG_HANDLERS
+      value: file
+    volumeMounts:
+    - mountPath: /log
+      name: log-volume
+
+  volumes:
+  - name: log-volume
+    hostPath:
+      # directory location on host
+      path: /var/log/webapp
+      # this field is optional
+      type: Directory
+kubectl create -f webapp.yaml
+
+### Create a Persistent Volume with the given specification.
+### Volume Name: pv-log
+### Storage: 100Mi
+### Access Modes: ReadWriteMany
+### Host Path: /pv/log
+### Reclaim Policy: Retain
+
+vi pv.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-log
+spec:
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /pv/log
+
+kubectl create -f pv.yaml 
+
+### Let us claim some of that storage for our application. Create a Persistent Volume Claim with the given specification.
+### Volume Name: claim-log-1
+### Storage Request: 50Mi
+### Access Modes: ReadWriteOnce
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: claim-log-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+
+
+### Update the Access Mode on the claim to bind it to the PV.
+### Delete and recreate the claim-log-1.
+### Volume Name: claim-log-1
+### Storage Request: 50Mi
+### PVol: pv-log
+### Status: Bound
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: claim-log-1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi
+
+### Update the webapp pod to use the persistent volume claim as its storage.
+### Replace hostPath configured earlier with the newly created PersistentVolumeClaim.
+### Name: webapp
+### Image Name: kodekloud/event-simulator
+### Volume: PersistentVolumeClaim=claim-log-1
+### Volume Mount: /log
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+spec:
+  containers:
+  - name: event-simulator
+    image: kodekloud/event-simulator
+    env:
+    - name: LOG_HANDLERS
+      value: file
+    volumeMounts:
+    - mountPath: /log
+      name: log-volume
+
+  volumes:
+  - name: log-volume
+    persistentVolumeClaim:
+      claimName: claim-log-1
+
+
