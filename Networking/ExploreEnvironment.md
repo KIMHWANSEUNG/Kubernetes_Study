@@ -10,3 +10,4 @@ kubectl get node -o wide
 
 ### What is the MAC address assigned to node01?
 arp node01
+
