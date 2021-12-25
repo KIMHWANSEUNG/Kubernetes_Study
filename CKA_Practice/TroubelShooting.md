@@ -1,19 +1,18 @@
 kubectl config use-context wk8s
 
-kubectl get nodes
-
 ssh wk8s-node-0
 
 sudo -i
 
 systemctl status kubelet
 
-system restart kubelet
+systemctl restart kubelet
 
-system status kubelet
-
-exit
+systemctl status kubelet
 
 exit
 
-kubectl get nodes
+exit
+
+kubeclt get nodes
+

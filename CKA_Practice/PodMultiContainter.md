@@ -1,12 +1,14 @@
-kubectl run kucc1 --image=nginx --dry-run=client -o yaml > multi.yaml
+kubectl run kucc1 --image=nginx --dry-run=client -o yaml > pod.yaml
 
-vi multi.yaml
+vi pod.yaml
 
-spec:
-  containters:
-  - image: nginx
-    name: nginx
-  - image: consul
-    name: consul
+containers:
+  name: nginx
+- image: nginx
+  name: consul
+- image: consul
 
-kubectl create -f multi.yaml 
+
+kubectl craete -f pod.yaml
+
+kubectl get pods

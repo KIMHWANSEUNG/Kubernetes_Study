@@ -1,3 +1,5 @@
+kubectl config use-context hk8s
+
 vi pv.yaml
 
 apiVersion: v1
@@ -7,7 +9,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: 
+  storageClassName:
   capacity:
     storage: 2Gi
   accessModes:
@@ -15,4 +17,6 @@ spec:
   hostPath:
     path: "/srv/app-config"
 
-kubectl create pv.yaml
+kubectl create -f pv.yaml
+
+kubectl get pv

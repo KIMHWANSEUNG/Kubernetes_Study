@@ -2,22 +2,24 @@ kubectl config use-context k8s
 
 kubectl get node
 
+kubectl cordon mk8s-master-0
+
+kubectl drain mk8s-master-0 --ignore-daemonsets
+
 ssh mk8s-master-0
 
 sudo -i
 
-
-apt-get update
-
-apt-get install -y kubeadm=1.22.2-00
+apt-get update && apt-get install -y kubeadm=1.22.2-00
 
 kubeadm upgrade node
 
-kubeadm upgrade apply
+kubeadm upgrade apply 
 
-apt-get update && apt-get install -y kubelet=1.22.2-00 kubectl=1.22.2-00
+apt-get update && apt-get install -y kubelet=1.22.2-00 kubectl=1.22.2-00 && 
 
 systemctl daemon-reload
+
 systemctl restart kubelet
 
 exit
@@ -25,5 +27,3 @@ exit
 exit
 
 kubectl uncordon mk8s-master-0
-
-kubectl get node

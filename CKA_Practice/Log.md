@@ -1,3 +1,4 @@
-kubectl logs foobar | grep unabel-to-access-website > /opt/KUTR00101/foobar
+kubectl config use-context k8s
 
-cat /opt/KUTR00101/foobar
+kubectl logs foobar | grep unable-to-access-website > /opt/KUTR00101/foobar
+

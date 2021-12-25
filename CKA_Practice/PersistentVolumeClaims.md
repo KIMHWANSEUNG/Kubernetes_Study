@@ -1,3 +1,5 @@
+kubectl config use-context 0k8s
+
 vi pvc.yaml
 
 apiVersion: v1
@@ -13,38 +15,24 @@ spec:
       storage: 10Mi
   storageClassName: csi-hostpath-sc
 
-kubectl get pvc
+wq!
 
-kubectl run web-server --image=nginx --dry-run=client -o yaml > pod2.yaml
+kubectl create -f pvc.yaml
 
-vi po2.yaml
+kubectl run web-server --image=nginx --dry-run=client -o yaml > pod1.yaml
 
-apiVersion: v1
-kind: Pod
-metadata:
-  creationTimestamp: null
-  labels:
-    run: web-server
-  name: web-server
 spec:
   containers:
-  - image: nginx
-    name: web-server
-    resources: {}
-    volumeMounts
+    - name: web-server
+      image: nginx
+      volumeMounts:
       - mountPath: "/usr/share/nginx/html"
-        name: task-pv-storage
-  dnsPolicy: ClusterFirst
-  restartPolicy: Always
-  volumes: 
-  -  name: task-pv-storage
-     persistentVolumeClaim:
-       claimName: pv-volume
-status: {}
+        name: mypd
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: pv-volume
+
+kubectl create -f pod1.yaml
 
 kubectl edit pv-volume -record
-
-resources:
-  requests:
-    sotrage: 70Mi
-storageClassName: csi-hostpath-sc

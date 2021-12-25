@@ -1,26 +1,18 @@
-kubectl get deployments.apps
+kubectl config use-context k8s
 
-k edit deployment front-end
+kubectl edit deployment.apps front-end
 
-spec:
-  containers: 
-    ...
-    ports:
-    - containerPort: 80
-      name: http
-      protocol: TCP
-
-k expose deploy front-end --name=front-end-svc --type=NodePort --port=80 --dry-run=client -o yaml > sv.yaml
-
-vi sv.yaml
-
-spec:
+container:
   ports:
-  - port: 80
-    protocol: tCp
-    targetPort: 80
     name: http
+  - containerPort: 80
+    protocol: TCP
 
-kubectl create -f sv.yaml
+wq!
 
-kubectl get svc
+kubectl expose deploy front-end --name=front-end-svc --type=Nodeport --port=80 --dry-run=client -o yaml > expose.yaml 
+
+vi expose.yaml
+
+ports:
+  name: http
