@@ -17,6 +17,4 @@ spec:
   hostPath:
     path: "/srv/app-config"
 
-kubectl create -f pv.yaml
-
-kubectl get pv
+    kubectl create -f  pv.yaml

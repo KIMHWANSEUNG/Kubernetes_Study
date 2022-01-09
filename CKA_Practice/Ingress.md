@@ -1,6 +1,6 @@
-kubectl contig use-context k8s
+kubectl config use-context k8s
 
-vi ingress.yaml
+vi ig.yaml
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -20,3 +20,17 @@ spec:
             name: hello
             port:
               number: 5678
+
+kubectl create -f ig.yaml
+
+kubectl get pods -n ing-internal -o wide
+
+kubectl get nodes -o wdie
+
+kubectl get svc hello -n ing-internal
+
+
+
+
+
+

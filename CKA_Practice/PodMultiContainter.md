@@ -1,14 +1,15 @@
-kubectl run kucc1 --image=nginx --dry-run=client -o yaml > pod.yaml
+kubectl config use-context k8s
 
-vi pod.yaml
+kubectl run kucc1 --image=nginx --dry-run=client -o yaml > pod3.yaml
 
-containers:
-  name: nginx
-- image: nginx
-  name: consul
-- image: consul
+vi pod3.yaml
 
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  - image: consul
+    name: consul
 
-kubectl craete -f pod.yaml
+kubectl create -f pod3.yaml
 
-kubectl get pods

@@ -1,18 +1,19 @@
 kubectl config use-context k8s
 
-kubectl edit deployment.apps front-end
+kubectl edit deployment front-end
 
 container:
   ports:
-    name: http
   - containerPort: 80
+    name: http
     protocol: TCP
+    
 
-wq!
+kubectl expose deployment front-end --name=front-end-svc --tpye=Nodeport --port=90 --dry-run=client -o yaml > svc.yaml
 
-kubectl expose deploy front-end --name=front-end-svc --type=Nodeport --port=80 --dry-run=client -o yaml > expose.yaml 
+vi svc.yaml
 
-vi expose.yaml
+spec:
+  ports:
+    name: http
 
-ports:
-  name: http

@@ -14,5 +14,4 @@ exit
 
 exit
 
-kubeclt get nodes
-
+kubectl get nodes 

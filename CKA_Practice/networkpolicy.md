@@ -1,6 +1,8 @@
-//다시 풀어보기 
-
 kubectl config use-context hk8s
+
+kubectl get ns --show-labels
+
+kubectl label ns my-app app=my-app 
 
 vi np.yaml
 
@@ -11,23 +13,18 @@ metadata:
   namespace: fubar
 spec:
   podSelector:
-    matchLabels:
+    matchLabels: {}
   policyTypes:
   - Ingress
   ingress:
+  - from:
     - namespaceSelector:
         matchLabels:
           app: my-app
+    - podSelector:
+        matchLabels: {}
     ports:
     - protocol: TCP
       port: 9000
-
-wq!
-kubectl get ns --show-labels
-
-kubectl label ns my-app app=my-app
-
-kubectl create -f np.yaml
-
 
 

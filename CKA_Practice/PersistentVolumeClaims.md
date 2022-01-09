@@ -1,4 +1,4 @@
-kubectl config use-context 0k8s
+kubectl config use-context ok8s
 
 vi pvc.yaml
 
@@ -15,24 +15,33 @@ spec:
       storage: 10Mi
   storageClassName: csi-hostpath-sc
 
-wq!
-
 kubectl create -f pvc.yaml
 
-kubectl run web-server --image=nginx --dry-run=client -o yaml > pod1.yaml
+kubectl get pvc
 
+vi pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server
 spec:
   containers:
-    - name: web-server
+    - name: nginx
       image: nginx
       volumeMounts:
       - mountPath: "/usr/share/nginx/html"
         name: mypd
   volumes:
-    - name: task-pv-storage
+    - name: mypd
       persistentVolumeClaim:
         claimName: pv-volume
 
-kubectl create -f pod1.yaml
+kubectl create -f pod.yaml
 
-kubectl edit pv-volume -record
+kubectl edit pvc pv-volume -record
+
+storage: 70Mi
+
+wq!
+
